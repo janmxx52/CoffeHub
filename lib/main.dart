@@ -1,8 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:coffehub/features/auth/screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'features/auth/screens/login_screen.dart';
 import 'firebase_options.dart';
-import 'test/firebase_test_page.dart';
+
+import 'features/auth/providers/auth_provider.dart';
+import 'features/splash/screens/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +15,16 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const CoffeeHubApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+        ),
+      ],
+      child: const CoffeeHubApp(),
+    ),
+  );
 }
 
 class CoffeeHubApp extends StatelessWidget {
@@ -26,7 +39,7 @@ class CoffeeHubApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: Colors.brown,
       ),
-      home: const FirebaseTestPage(),
+      home: const LoginScreen(),
     );
   }
 }
