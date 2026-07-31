@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
+import 'test/firebase_test_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,17 +26,7 @@ class CoffeeHubApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: Colors.brown,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'CoffeeHub',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
+      home: const FirebaseTestPage(),
     );
   }
 }
