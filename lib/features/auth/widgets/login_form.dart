@@ -64,7 +64,6 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = context.watch<AuthProvider>();
     return Form(
       key: _formKey,
       child: Column(
@@ -132,6 +131,15 @@ class _LoginFormState extends State<LoginForm> {
               );
             },
           ),
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/register',
+              );
+            },
+            child: const Text("Create new account"),
+          )
         ],
       ),
     );
