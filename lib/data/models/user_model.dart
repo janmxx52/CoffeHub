@@ -55,8 +55,11 @@ class UserModel {
 
   /// DocumentSnapshot -> Object
   factory UserModel.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {
-    final data = doc.data()!;
+    final data = doc.data();
 
+    if (data == null) {
+      throw Exception("User document not found");
+    }
     return UserModel(
       uid: doc.id,
       email: data['email'] as String? ?? '',
@@ -106,4 +109,8 @@ UserModel(
 )
 ''';
   }
+  @override
+  bool operator ==(Object other);
+  @override
+  int get hashCode;
 }

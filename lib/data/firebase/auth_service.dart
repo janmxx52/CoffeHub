@@ -4,9 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/user_model.dart';
 
 class AuthService {
-  AuthService();
-
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -22,8 +19,8 @@ class AuthService {
     required String fullName,
   }) async {
     final credential = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
+      email: email.trim(),
+      password: password.trim(),
     );
 
     final firebaseUser = credential.user!;
@@ -39,12 +36,7 @@ class AuthService {
     await _firestore
         .collection('users')
         .doc(firebaseUser.uid)
-        .set({
-      ...userModel.toMap(),
-      'createdAt': FieldValue.serverTimestamp(),
-      'updatedAt': FieldValue.serverTimestamp(),
-    });
-
+        .set(userModel.toMap());
     return userModel;
   }
 
@@ -52,21 +44,26 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    final credential = await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      final credential = await _auth.signInWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
+      );
 
-    final snapshot = await _firestore
-        .collection('users')
-        .doc(credential.user!.uid)
-        .get();
+      final snapshot = await _firestore
+          .collection('users')
+          .doc(credential.user!.uid)
+          .get();
 
-    if (!snapshot.exists) {
-      return null;
+      if (!snapshot.exists) {
+        return null;
+      }
+
+      return UserModel.fromDocument(snapshot);
+
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message);
     }
-
-    return UserModel.fromDocument(snapshot);
   }
 
   /// Đăng xuất
@@ -76,7 +73,9 @@ class AuthService {
 
   /// Quên mật khẩu
   Future<void> resetPassword(String email) async {
-    await _auth.sendPasswordResetEmail(email: email);
+    await _auth.sendPasswordResetEmail(
+      email: email.trim(),
+    );
   }
 
   Future<UserModel?> getCurrentUser() async {
