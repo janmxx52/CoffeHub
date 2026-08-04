@@ -49,7 +49,11 @@ class _LoginFormState extends State<LoginForm> {
         ),
       );
 
-      // TODO: Chuyển sang HomeScreen
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/home',
+            (route) => false,
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

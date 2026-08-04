@@ -212,8 +212,11 @@ class _RegisterFormState extends State<RegisterForm> {
 
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
-                },
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/home',
+                        (route) => false,
+                  );                },
                 child: const Text(
                   "Login",
                   style: TextStyle(

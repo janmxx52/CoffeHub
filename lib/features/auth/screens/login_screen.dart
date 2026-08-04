@@ -52,9 +52,7 @@ class LoginScreen extends StatelessWidget {
                       color: Colors.grey.shade700,
                     ),
                   ),
-
                   const SizedBox(height: 40),
-
                   const LoginForm(),
                 ],
               ),

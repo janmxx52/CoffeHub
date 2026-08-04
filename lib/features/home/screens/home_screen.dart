@@ -1,31 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../auth/providers/auth_provider.dart';
+import '../providers/home_provider.dart';
+import '../widgets/category_section.dart';
+import '../widgets/home_app_bar.dart';
+import '../widgets/home_banner.dart';
+import '../widgets/product_section.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeProvider>().loadProducts();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final user = context.watch<AuthProvider>().currentUser;
+
+    final provider = context.watch<HomeProvider>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("CoffeeHub"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      appBar: const HomeAppBar(),
+
+      body: provider.isLoading
+          ? const Center(
+        child: CircularProgressIndicator(),
+      )
+          : RefreshIndicator(
+        onRefresh: provider.refreshProducts,
+        child: ListView(
           children: [
-            Text(
-              "Xin chào",
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
+
             const SizedBox(height: 16),
-            Text(user?.fullName ?? ""),
-            Text(user?.email ?? ""),
-            Text("Role: ${user?.role ?? ""}"),
+
+            const HomeBanner(),
+
+            const SizedBox(height: 24),
+
+            const CategorySection(),
+
+            const SizedBox(height: 24),
+
+            ProductSection(
+              products: provider.products,
+            ),
+
+            const SizedBox(height: 20),
           ],
         ),
       ),
