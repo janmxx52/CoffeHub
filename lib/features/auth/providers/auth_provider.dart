@@ -40,31 +40,30 @@ class AuthProvider extends ChangeNotifier {
       _currentUser = user;
 
       return user != null;
-    } catch (e) {
-      if (e is FirebaseAuthException) {
-        switch (e.code) {
-          case 'invalid-credential':
-            _errorMessage = 'Email hoặc mật khẩu không đúng';
-            break;
-
-          case 'user-not-found':
-            _errorMessage = 'Không tìm thấy tài khoản';
-            break;
-
-          case 'wrong-password':
-            _errorMessage = 'Sai mật khẩu';
-            break;
-
-          default:
-            _errorMessage = e.message;
-        }
-      } else {
-        _errorMessage = e.toString();
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'invalid-credential':
+          _errorMessage = 'Email hoặc mật khẩu không đúng';
+          break;
+        case 'user-not-found':
+          _errorMessage = 'Không tìm thấy tài khoản';
+          break;
+        case 'wrong-password':
+          _errorMessage = 'Sai mật khẩu';
+          break;
+        default:
+          _errorMessage = e.message ?? 'Đăng nhập thất bại';
       }
-
       return false;
+    } catch (e) {
+      _errorMessage = 'Đăng nhập thất bại. Vui lòng thử lại.';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
+
 
 
   Future<bool> register({

@@ -40,24 +40,31 @@ class _RegisterFormState extends State<RegisterForm> {
     if (!mounted) return;
 
     if (success) {
+      // Firebase tự động đăng nhập khi tạo tài khoản, nên ta cần đăng xuất ngay
+      // để yêu cầu người dùng phải tự đăng nhập lại theo đúng logic mong muốn.
+      await authProvider.logout();
+      
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Đăng ký thành công"),
+          content: Text('Đăng ký thành công! Vui lòng đăng nhập.'),
           backgroundColor: Colors.green,
         ),
       );
 
+      // Quay về màn hình Login
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            authProvider.errorMessage ?? "Đăng ký thất bại",
+            authProvider.errorMessage ?? 'Đăng ký thất bại',
           ),
           backgroundColor: Colors.red,
         ),
       );
     }
+
+
   }
 
   @override

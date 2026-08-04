@@ -44,27 +44,23 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    try {
-      final credential = await _auth.signInWithEmailAndPassword(
-        email: email.trim(),
-        password: password.trim(),
-      );
+    final credential = await _auth.signInWithEmailAndPassword(
+      email: email.trim(),
+      password: password.trim(),
+    );
 
-      final snapshot = await _firestore
-          .collection('users')
-          .doc(credential.user!.uid)
-          .get();
+    final snapshot = await _firestore
+        .collection('users')
+        .doc(credential.user!.uid)
+        .get();
 
-      if (!snapshot.exists) {
-        return null;
-      }
-
-      return UserModel.fromDocument(snapshot);
-
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e.message);
+    if (!snapshot.exists) {
+      return null;
     }
+
+    return UserModel.fromDocument(snapshot);
   }
+
 
   /// Đăng xuất
   Future<void> logout() async {
