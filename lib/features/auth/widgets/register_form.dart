@@ -79,11 +79,6 @@ class _RegisterFormState extends State<RegisterForm> {
       child: Column(
         children: [
 
-          const SizedBox(height: 40),
-
-          const FlutterLogo(size: 100),
-
-          const SizedBox(height: 40),
 
           // Full Name
           TextFormField(
@@ -93,7 +88,7 @@ class _RegisterFormState extends State<RegisterForm> {
             controller: _fullNameController,
             textInputAction: TextInputAction.next,
             decoration: const InputDecoration(
-              labelText: "Full Name",
+              labelText: "Họ và tên",
               prefixIcon: Icon(Icons.person),
             ),
             validator: (value) {
@@ -137,7 +132,7 @@ class _RegisterFormState extends State<RegisterForm> {
             obscureText: _obscurePassword,
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(
-              labelText: "Password",
+              labelText: "Mật khẩu",
               prefixIcon: const Icon(Icons.lock),
               suffixIcon: IconButton(
                 icon: Icon(
@@ -166,7 +161,7 @@ class _RegisterFormState extends State<RegisterForm> {
             obscureText: _obscureConfirmPassword,
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
-              labelText: "Confirm Password",
+              labelText: "Xác nhận mật khẩu",
               prefixIcon: const Icon(Icons.lock_outline),
               suffixIcon: IconButton(
                 icon: Icon(
@@ -198,7 +193,7 @@ class _RegisterFormState extends State<RegisterForm> {
           const SizedBox(height: 30),
 
           AppPrimaryButton(
-            text: "Create Account",
+            text: "Tạo tài khoản",
             onPressed: _register,
             isLoading: authProvider.isLoading,
           ),
@@ -208,14 +203,17 @@ class _RegisterFormState extends State<RegisterForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Already have an account? "),
+              const Text("Bạn đã có tài khoản chưa? "),
 
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
-                },
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/login',
+                        (route) => false,
+                  );                },
                 child: const Text(
-                  "Login",
+                  "Đăng nhập",
                   style: TextStyle(
                     color: Colors.brown,
                     fontWeight: FontWeight.bold,

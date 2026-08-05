@@ -213,7 +213,7 @@ Animation<double> _staggeredSlide(double start, double end) =>
                 onPressed: () async {
                   Navigator.pushReplacementNamed(
                     context,
-                    '/login',
+                    '/home',
                   );
                   await _initialize();
                 },

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:coffehub/data/firebase/auth_service.dart';
@@ -24,6 +25,9 @@ class AuthRepository {
       fullName: fullName,
     );
   }
+  Future<UserModel?> loginWithGoogle() {
+    return _authService.loginWithGoogle();
+  }
 
   /// Đăng nhập
   Future<UserModel?> login({
@@ -36,7 +40,17 @@ class AuthRepository {
     );
   }
 
-
+  Future<void> updateProfile({
+    required String fullName,
+    required String phoneNumber,
+    required String address,
+  }) {
+    return _authService.updateProfile(
+      fullName: fullName,
+      phoneNumber: phoneNumber,
+      address: address,
+    );
+  }
   /// Đăng xuất
   Future<void> logout() {
     return _authService.logout();
@@ -48,7 +62,18 @@ class AuthRepository {
   }
 
   /// Lấy thông tin người dùng
-  Future<UserModel?> getCurrentUser() {
-    return _authService.getCurrentUser();
+  Future<UserModel?> getCurrentUser() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+
+    if (firebaseUser == null) return null;
+
+    final doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .get();
+
+    if (!doc.exists) return null;
+
+    return UserModel.fromDocument(doc);
   }
 }

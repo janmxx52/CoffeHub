@@ -49,7 +49,11 @@ class _LoginFormState extends State<LoginForm> {
         ),
       );
 
-      // TODO: Chuyển sang HomeScreen
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/home',
+            (route) => false,
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -69,9 +73,7 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
 
-          const SizedBox(height: 40),
-
-          const FlutterLogo(size: 100),
+          // const SizedBox(height: 40),
 
           const SizedBox(height: 40),
 
@@ -92,7 +94,7 @@ class _LoginFormState extends State<LoginForm> {
             validator: Validators.validatePassword,
             obscureText: _obscureText,
             decoration: InputDecoration(
-              labelText: "Password",
+              labelText: "Mật khẩu",
               prefixIcon: const Icon(Icons.lock),
               suffixIcon: IconButton(
                 icon: Icon(
@@ -138,7 +140,7 @@ class _LoginFormState extends State<LoginForm> {
                 '/register',
               );
             },
-            child: const Text("Create new account"),
+            child: const Text("Tạo tài khoản mới ?"),
           )
         ],
       ),

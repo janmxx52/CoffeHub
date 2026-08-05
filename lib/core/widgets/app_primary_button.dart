@@ -30,7 +30,7 @@ class AppPrimaryButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 18),
           decoration: BoxDecoration(
             color: isLoading
-                ? AppColors.amber.withOpacity(0.6)
+                ? AppColors.amber.withValues(alpha: 0.6)
                 : AppColors.amber,
             borderRadius: BorderRadius.circular(14),
             boxShadow: [
@@ -54,6 +54,7 @@ class AppPrimaryButton extends StatelessWidget {
                 : Text(
               text,
               style: AppTextStyles.primaryButton,
+
             ),
           ),
         ),

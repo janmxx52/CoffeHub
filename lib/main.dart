@@ -4,11 +4,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'features/auth/screens/login_screen.dart';
+import 'features/profile/providers/profile_provider.dart';
 import 'firebase_options.dart';
 
 import 'features/auth/providers/auth_provider.dart';
 import 'features/splash/screens/splash_screen.dart';
 import 'core/routes/app_routes.dart';
+
+import 'package:coffehub/features/home/providers/home_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -22,7 +25,14 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (_) => AuthProvider(),
         ),
-        ChangeNotifierProvider(create: (_) => SplashProvider())
+        ChangeNotifierProvider(
+            create: (_) => SplashProvider()),
+        ChangeNotifierProvider(
+          create: (_) => HomeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider(),
+        ),
       ],
       child: const CoffeeHubApp(),
     ),
