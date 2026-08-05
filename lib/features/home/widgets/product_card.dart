@@ -203,7 +203,7 @@ class ProductCard extends StatelessWidget {
 
 
                     Text(
-                      "${product.price.toStringAsFixed(0)} đ",
+                      "${product.price.toStringAsFixed(0)} vnđ",
 
                       style: const TextStyle(
                         color: Colors.brown,

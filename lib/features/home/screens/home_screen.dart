@@ -47,8 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
 
             if (!authProvider.isLoggedIn) ...[
-              const GuestLoginCard(),
-              const SizedBox(height: 20),
+              // const GuestLoginCard(),
+              // const SizedBox(height: 20),
             ],
 
             const HomeBanner(),

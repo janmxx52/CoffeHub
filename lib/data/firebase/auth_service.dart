@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FacebookAuth _facebookAuth = FacebookAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   /// User hiện tại
   User? get currentFirebaseUser => _auth.currentUser;
@@ -69,6 +70,7 @@ class AuthService {
       throw Exception(e.message);
     }
   }
+
 
   Future<void> updateProfile({
     required String fullName,
@@ -184,7 +186,13 @@ class AuthService {
       return user;
     }
 
+
+
     return UserModel.fromDocument(snapshot);
+  }
+
+  Future<UserModel?> loginWithFacebook() async {
+
   }
 }
 

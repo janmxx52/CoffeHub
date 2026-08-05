@@ -200,4 +200,52 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  Future<bool> loginWithFacebook() async {
+    try {
+      _isLoading = true;
+      _errorMessage = null;
+      notifyListeners();
+
+      final user = await _repository.loginWithFacebook();
+
+      if (user == null) {
+        return false;
+      }
+
+      _currentUser = user;
+
+      return true;
+    } on FirebaseAuthException catch (e) {
+      _errorMessage = e.message;
+      return false;
+    } catch (e) {
+      _errorMessage = e.toString();
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Future<bool> loginWithApple() async {
+  //   try {
+  //     _isLoading = true;
+  //     _errorMessage = null;
+  //     notifyListeners();
+  //
+  //     final user = await _repository.loginWithApple();
+  //
+  //     if (user == null) return false;
+  //
+  //     _currentUser = user;
+  //
+  //     return true;
+  //   } catch (e) {
+  //     _errorMessage = e.toString();
+  //     return false;
+  //   } finally {
+  //     _isLoading = false;
+  //     notifyListeners();
+  //   }
+  // }
 }

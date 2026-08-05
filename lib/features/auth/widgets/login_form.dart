@@ -8,9 +8,11 @@ class LoginForm extends StatefulWidget {
 
   @override
   State<LoginForm> createState() => _LoginFormState();
+
 }
 
 class _LoginFormState extends State<LoginForm> {
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -19,6 +21,56 @@ class _LoginFormState extends State<LoginForm> {
   final _passwordController = TextEditingController();
 
   bool _obscureText = true;
+
+
+  Future<void> _loginWithGoogle() async {
+    final authProvider = context.read<AuthProvider>();
+
+    final success = await authProvider.loginWithGoogle();
+
+    if (!mounted) return;
+
+    if (success) {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/home',
+            (_) => false,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            authProvider.errorMessage ?? "Đăng nhập Google thất bại",
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _loginWithFacebook() async {
+    final authProvider = context.read<AuthProvider>();
+
+    final success = await authProvider.loginWithFacebook();
+
+    if (!mounted) return;
+
+    if (success) {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/home',
+            (_) => false,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            authProvider.errorMessage ?? "Đăng nhập Facebook thất bại",
+          ),
+        ),
+      );
+    }
+  }
+
 
 
   @override
@@ -72,10 +124,6 @@ class _LoginFormState extends State<LoginForm> {
       key: _formKey,
       child: Column(
         children: [
-
-          // const SizedBox(height: 40),
-
-          const SizedBox(height: 40),
 
           TextFormField(
             controller: _emailController,
@@ -141,8 +189,70 @@ class _LoginFormState extends State<LoginForm> {
               );
             },
             child: const Text("Tạo tài khoản mới ?"),
-          )
-        ],
+          ),
+          const SizedBox(height: 25),
+
+          const Row(
+            children: [
+              Expanded(child: Divider()),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Text(
+                  "Hoặc tiếp tục với",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              Expanded(child: Divider()),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+
+          Consumer<AuthProvider>(
+            builder: (_, authProvider, __) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  const SizedBox(width: 20),
+
+                  IconButton(
+                    onPressed: authProvider.isLoading
+                        ? null
+                        : _loginWithGoogle,
+                    icon: Image.asset(
+                      "assets/icons/google.png",
+                      width: 40,
+                    ),
+                  ),
+
+                  const SizedBox(width: 18),
+
+                  IconButton(
+                    onPressed: authProvider.isLoading
+                        ? null
+                        : _loginWithFacebook,
+                    icon: Image.asset(
+                      "assets/icons/facebook.png",
+                      width: 40,
+                    ),
+                  ),
+
+
+                  IconButton(
+                    onPressed: () {
+                      // TODO Apple
+                    },
+                    icon: Image.asset(
+                      "assets/icons/apple.png",
+                      width: 78,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+       ],
       ),
     );
   }

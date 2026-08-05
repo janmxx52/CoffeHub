@@ -29,6 +29,11 @@ class AuthRepository {
     return _authService.loginWithGoogle();
   }
 
+  Future<UserModel?> loginWithFacebook() {
+    return _authService.loginWithFacebook();
+  }
+
+
   /// Đăng nhập
   Future<UserModel?> login({
     required String email,

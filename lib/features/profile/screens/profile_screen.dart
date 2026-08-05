@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../auth/providers/auth_provider.dart';
+import '../../home/widgets/guest_login_card.dart';
 import '../providers/profile_provider.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_info_card.dart';
@@ -47,8 +48,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: CircularProgressIndicator(),
       )
           : user == null
-          ? const Center(
-        child: Text("Bạn chưa đăng nhập"),
+          ? const SafeArea(
+        child: SingleChildScrollView(
+          child: GuestLoginCard(),
+        ),
       )
           : SingleChildScrollView(
         padding: const EdgeInsets.all(20),

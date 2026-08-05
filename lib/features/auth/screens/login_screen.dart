@@ -21,13 +21,20 @@ class LoginScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
 
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, "/home");
+                      },
+                      icon: const Icon(Icons.arrow_back_ios_new),
+                    ),
+                  ),
+
                   Image.asset(
                     "assets/images/logo.png",
                     fit: BoxFit.contain,
-                    // height: 270,
                   ),
-
-
 
                   const Text(
                     "Coffee Hub",
