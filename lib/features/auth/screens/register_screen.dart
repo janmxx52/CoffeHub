@@ -9,13 +9,24 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Account"),
+        title: const Text("Tạo tài khoản"),
         centerTitle: true,
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(24),
-          child: RegisterForm(),
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            children: [
+              Image.asset(
+                "assets/images/logo.png",
+                fit: BoxFit.contain,
+                // height: 280,
+
+              ),
+
+              const RegisterForm(),
+            ],
+          ),
         ),
       ),
     );

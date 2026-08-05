@@ -75,8 +75,6 @@ class _LoginFormState extends State<LoginForm> {
 
           // const SizedBox(height: 40),
 
-          // const FlutterLogo(size: 100),
-
           const SizedBox(height: 40),
 
           TextFormField(
@@ -96,7 +94,7 @@ class _LoginFormState extends State<LoginForm> {
             validator: Validators.validatePassword,
             obscureText: _obscureText,
             decoration: InputDecoration(
-              labelText: "Password",
+              labelText: "Mật khẩu",
               prefixIcon: const Icon(Icons.lock),
               suffixIcon: IconButton(
                 icon: Icon(
@@ -142,7 +140,7 @@ class _LoginFormState extends State<LoginForm> {
                 '/register',
               );
             },
-            child: const Text("Create new account"),
+            child: const Text("Tạo tài khoản mới ?"),
           )
         ],
       ),
