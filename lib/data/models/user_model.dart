@@ -5,6 +5,7 @@ class UserModel {
   final String email;
   final String fullName;
   final String? phoneNumber;
+  final String? address;
   final String? photoUrl;
   final String role;
   final bool isActive;
@@ -16,6 +17,7 @@ class UserModel {
     required this.email,
     required this.fullName,
     this.phoneNumber,
+    this.address,
     this.photoUrl,
     this.role = 'user',
     this.isActive = true,
@@ -30,6 +32,7 @@ class UserModel {
       'email': email,
       'fullName': fullName,
       'phoneNumber': phoneNumber,
+      'address': address,
       'photoUrl': photoUrl,
       'role': role,
       'isActive': isActive,
@@ -45,6 +48,7 @@ class UserModel {
       email: map['email'] as String? ?? '',
       fullName: map['fullName'] as String? ?? '',
       phoneNumber: map['phoneNumber'] as String?,
+      address: map['address'] as String?,
       photoUrl: map['photoUrl'] as String?,
       role: map['role'] as String? ?? 'user',
       isActive: map['isActive'] as bool? ?? true,
@@ -53,18 +57,22 @@ class UserModel {
     );
   }
 
-  /// DocumentSnapshot -> Object
-  factory UserModel.fromDocument(DocumentSnapshot<Map<String, dynamic>> doc) {
+  /// Firestore Document -> Object
+  factory UserModel.fromDocument(
+      DocumentSnapshot<Map<String, dynamic>> doc,
+      ) {
     final data = doc.data();
 
     if (data == null) {
-      throw Exception("User document not found");
+      throw Exception('User document not found');
     }
+
     return UserModel(
       uid: doc.id,
       email: data['email'] as String? ?? '',
       fullName: data['fullName'] as String? ?? '',
       phoneNumber: data['phoneNumber'] as String?,
+      address: data['address'] as String?,
       photoUrl: data['photoUrl'] as String?,
       role: data['role'] as String? ?? 'user',
       isActive: data['isActive'] as bool? ?? true,
@@ -78,6 +86,7 @@ class UserModel {
     String? email,
     String? fullName,
     String? phoneNumber,
+    String? address,
     String? photoUrl,
     String? role,
     bool? isActive,
@@ -89,6 +98,7 @@ class UserModel {
       email: email ?? this.email,
       fullName: fullName ?? this.fullName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
       photoUrl: photoUrl ?? this.photoUrl,
       role: role ?? this.role,
       isActive: isActive ?? this.isActive,
@@ -104,13 +114,40 @@ UserModel(
   uid: $uid,
   email: $email,
   fullName: $fullName,
+  phoneNumber: $phoneNumber,
+  address: $address,
   role: $role,
-  isActive: $isActive
+  isActive: $isActive,
 )
 ''';
   }
+
   @override
-  bool operator ==(Object other);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is UserModel &&
+            runtimeType == other.runtimeType &&
+            uid == other.uid &&
+            email == other.email &&
+            fullName == other.fullName &&
+            phoneNumber == other.phoneNumber &&
+            address == other.address &&
+            photoUrl == other.photoUrl &&
+            role == other.role &&
+            isActive == other.isActive;
+  }
+
   @override
-  int get hashCode;
+  int get hashCode {
+    return Object.hash(
+      uid,
+      email,
+      fullName,
+      phoneNumber,
+      address,
+      photoUrl,
+      role,
+      isActive,
+    );
+  }
 }

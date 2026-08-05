@@ -21,17 +21,13 @@ class LoginScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
 
-                  // Image.asset(
-                  //   "assets/images/logo.png",
-                  //   width: 120,
-                  // ),
-                  Icon(
-                    Icons.coffee,
-                    size: 90,
-                    color: Colors.brown,
+                  Image.asset(
+                    "assets/images/logo.png",
+                    fit: BoxFit.contain,
+                    // height: 270,
                   ),
 
-                  const SizedBox(height: 20),
+
 
                   const Text(
                     "Coffee Hub",

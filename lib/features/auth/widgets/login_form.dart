@@ -73,9 +73,9 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
 
-          const SizedBox(height: 40),
+          // const SizedBox(height: 40),
 
-          const FlutterLogo(size: 100),
+          // const FlutterLogo(size: 100),
 
           const SizedBox(height: 40),
 

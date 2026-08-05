@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:provider/provider.dart';
+
+import '../../auth/providers/auth_provider.dart';
+import '../widgets/guest_login_card.dart';
 import '../providers/home_provider.dart';
 import '../widgets/category_section.dart';
 import '../widgets/home_app_bar.dart';
 import '../widgets/home_banner.dart';
+import '../widgets/home_bottom_navigation.dart';
 import '../widgets/product_section.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,22 +32,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    final provider = context.watch<HomeProvider>();
+    final homeProvider = context.watch<HomeProvider>();
+    final authProvider = context.watch<AuthProvider>();
 
     return Scaffold(
       appBar: const HomeAppBar(),
-
-      body: provider.isLoading
+      body: homeProvider.isLoading
           ? const Center(
         child: CircularProgressIndicator(),
       )
           : RefreshIndicator(
-        onRefresh: provider.refreshProducts,
+        onRefresh: homeProvider.refreshProducts,
         child: ListView(
           children: [
 
-            const SizedBox(height: 16),
+            if (!authProvider.isLoggedIn) ...[
+              const GuestLoginCard(),
+              const SizedBox(height: 20),
+            ],
 
             const HomeBanner(),
 
@@ -53,12 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 24),
 
             ProductSection(
-              products: provider.products,
+              products: homeProvider.products,
             ),
 
             const SizedBox(height: 20),
           ],
         ),
+      ),
+      bottomNavigationBar: const HomeBottomNavigation(
+        currentIndex: 0,
       ),
     );
   }

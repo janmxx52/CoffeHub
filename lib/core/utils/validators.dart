@@ -63,13 +63,51 @@ class Validators {
   /// Số điện thoại
   static String? validatePhone(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return null;
+      return 'Vui lòng nhập số điện thoại';
     }
 
     final phoneRegex = RegExp(r'^(0|\+84)[0-9]{9}$');
 
     if (!phoneRegex.hasMatch(value.trim())) {
       return 'Số điện thoại không hợp lệ';
+    }
+
+    return null;
+  }
+
+
+  /// Địa chỉ
+  static String? validateAddress(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Vui lòng nhập địa chỉ';
+    }
+
+    if (value.trim().length < 5) {
+      return 'Địa chỉ quá ngắn';
+    }
+
+    return null;
+  }
+
+  /// Tên sản phẩm
+  static String? validateProductName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Vui lòng nhập tên sản phẩm';
+    }
+
+    return null;
+  }
+
+  /// Giá
+  static String? validatePrice(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Vui lòng nhập giá';
+    }
+
+    final price = double.tryParse(value);
+
+    if (price == null || price <= 0) {
+      return 'Giá không hợp lệ';
     }
 
     return null;

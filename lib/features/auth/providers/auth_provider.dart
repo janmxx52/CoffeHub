@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/models/user_model.dart';
@@ -121,6 +122,41 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> updateProfile({
+    required String fullName,
+    required String phoneNumber,
+    required String address,
+  }) async {
+    try {
+      _isLoading = true;
+      _errorMessage = null;
+      notifyListeners();
+
+      await _repository.updateProfile(
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        address: address,
+      );
+
+      if (_currentUser != null) {
+        _currentUser = _currentUser!.copyWith(
+          fullName: fullName,
+          phoneNumber: phoneNumber,
+          address: address,
+          updatedAt: Timestamp.now(),
+        );
+      }
+
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> logout() async {
     await _repository.logout();
 
@@ -136,5 +172,32 @@ class AuthProvider extends ChangeNotifier {
     _currentUser = await _repository.getCurrentUser();
 
     notifyListeners();
+  }
+
+  Future<bool> loginWithGoogle() async {
+    try {
+      _isLoading = true;
+      _errorMessage = null;
+      notifyListeners();
+
+      final user = await _repository.loginWithGoogle();
+
+      if (user == null) {
+        return false;
+      }
+
+      _currentUser = user;
+
+      return true;
+    } on FirebaseAuthException catch (e) {
+      _errorMessage = e.message;
+      return false;
+    } catch (e) {
+      _errorMessage = e.toString();
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'features/auth/screens/login_screen.dart';
+import 'features/profile/providers/profile_provider.dart';
 import 'firebase_options.dart';
 
 import 'features/auth/providers/auth_provider.dart';
@@ -28,6 +29,9 @@ Future<void> main() async {
             create: (_) => SplashProvider()),
         ChangeNotifierProvider(
           create: (_) => HomeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider(),
         ),
       ],
       child: const CoffeeHubApp(),

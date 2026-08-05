@@ -11,7 +11,7 @@ class HomeAppBar extends StatelessWidget
       backgroundColor: Colors.white,
       centerTitle: false,
       title: const Text(
-        "CoffeeHub",
+        "Coffee Hub",
         style: TextStyle(
           color: Colors.brown,
           fontWeight: FontWeight.bold,

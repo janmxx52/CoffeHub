@@ -10,7 +10,7 @@ class CategorySection extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          "Categories",
+          "Danh Mục",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
