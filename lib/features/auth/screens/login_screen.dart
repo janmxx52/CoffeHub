@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
-                maxWidth: 450,
+                maxWidth: 600,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
 
                   Image.asset(
                     "assets/images/logo.png",
-                    fit: BoxFit.contain,
+                    height: 270,
                   ),
 
                   const Text(
